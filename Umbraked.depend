@@ -1,0 +1,132 @@
+# depslib dependency file v1.0
+1744108780 source:c:\hai anh\umbraked\main.cpp
+	"Game.h"
+
+1741682005 c:\hai anh\umbraked\defs.h
+	<SDL.h>
+	<SDL_image.h>
+	<SDL_mixer.h>
+	<SDL_ttf.h>
+	<windows.h>
+	<string>
+	"Button.h"
+	"BaseObject.h"
+	"Player.h"
+	"Bullet.h"
+	"Enemy.h"
+
+1741341559 source:c:\hai anh\umbraked\commonfunc.cpp
+
+1741491948 c:\hai anh\umbraked\graphics.h
+
+1741347804 source:c:\hai anh\umbraked\graphics.cpp
+	<SDL.h>
+	<SDL_image.h>
+	"graphics.h"
+	"defs.h"
+
+1741775612 source:c:\hai anh\umbraked\baseobject.cpp
+	"BaseObject.h"
+
+1741775612 c:\hai anh\umbraked\baseobject.h
+	<SDL.h>
+	<string>
+
+1741564260 c:\hai anh\umbraked\button.h
+	"BaseObject.h"
+	<SDL.h>
+	<SDL_image.h>
+	<string>
+
+1741495603 c:\hai anh\umbraked\textbutton.h
+	<SDL.h>
+	<SDL_ttf.h>
+	<string>
+	<iostream>
+
+1741681643 c:\hai anh\umbraked\player.h
+	"defs.h"
+	"BaseObject.h"
+	"Bullet.h"
+	<vector>
+	<algorithm>
+	<iostream>
+
+1741774149 c:\hai anh\umbraked\bullet.h
+	"BaseObject.h"
+
+1741681464 c:\hai anh\umbraked\enemy.h
+	"defs.h"
+	"BaseObject.h"
+
+1744108780 c:\hai anh\umbraked\game.h
+	<SDL.h>
+	<SDL_ttf.h>
+	<SDL_mixer.h>
+	<vector>
+	<random>
+	"Config.h"
+	"Structs.h"
+
+1744108780 c:\hai anh\umbraked\config.h
+
+1744108886 c:\hai anh\umbraked\structs.h
+	<SDL.h>
+	<string>
+
+1744105559 c:\hai anh\umbraked\resourcemanager.h
+	<SDL.h>
+	<SDL_ttf.h>
+	<SDL_mixer.h>
+	<vector>
+	"Config.h"
+
+1744105559 c:\hai anh\umbraked\worldgenerator.h
+	<vector>
+	<random>
+	"Structs.h"
+	"Config.h"
+
+1744105559 c:\hai anh\umbraked\enemymanager.h
+	<vector>
+	"Structs.h"
+	"Config.h"
+	<SDL_mixer.h>
+
+1744103470 source:c:\hai anh\umbraked\resourcemanager.cpp
+	"ResourceManager.h"
+	<SDL_image.h>
+	<cstdio>
+
+1744103499 source:c:\hai anh\umbraked\worldgenerator.cpp
+	"WorldGenerator.h"
+	"Utils.h"
+	<cstdlib>
+
+1744108780 c:\hai anh\umbraked\utils.h
+	<SDL.h>
+
+1744108780 source:c:\hai anh\umbraked\utils.cpp
+	"Utils.h"
+
+1744103786 source:c:\hai anh\umbraked\enemymanager.cpp
+	"EnemyManager.h"
+	"Utils.h"
+	<algorithm>
+
+1744108886 source:c:\hai anh\umbraked\game.cpp
+	"Game.h"
+	"Utils.h"
+	<SDL_image.h>
+	<SDL_ttf.h>
+	<SDL_mixer.h>
+	<vector>
+	<random>
+	<algorithm>
+	<string>
+	<fstream>
+	<cstdio>
+
+1744108325 source:c:\hai anh\umbraked\config.cpp
+	"Config.h"
+
