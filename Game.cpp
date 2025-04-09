@@ -197,6 +197,17 @@ void Game::update() {
 
     cameraX += CAMERA_SPEED;
 
+    static float spawnThreshold = 0.9f;
+    static float enemyBulletSpeed = 3.0f;
+    static int lastThreshold = 0;
+    int nextThreshold = getNextDifficultyThreshold(lastThreshold);
+    if (score >= nextThreshold && score >= 100) {
+        spawnThreshold = 0.9f - 0.03f * (score / 100);
+        spawnThreshold = std::max(0.3f, spawnThreshold);
+        enemyBulletSpeed += 0.1f;
+        lastThreshold = nextThreshold;
+    }
+
     isOnGround = false;
     bool horizontalCollision = false;
 
@@ -406,7 +417,10 @@ void Game::renderText(const char* text, int x, int y, SDL_Color color, TTF_Font*
     SDL_DestroyTexture(texture);
     SDL_FreeSurface(surface);
 }
+
 void Game::generateWorld() {
+    static float spawnThreshold = 0.9f; // Ngưỡng spawn ban đầu
+
     for (int y = 0; y < 3; y++) {
         for (int x = lastGeneratedX; x < lastGeneratedX + SCREEN_WIDTH + TILE_SIZE * 10; x += TILE_SIZE) {
             tiles.push_back({{x, y * TILE_SIZE, TILE_SIZE, TILE_SIZE}, true});
@@ -425,13 +439,13 @@ void Game::generateWorld() {
         }
     }
 
-    if (lastGeneratedX > SCREEN_WIDTH && spawnDist(gen) < 0.9f) {
+    if (lastGeneratedX > SCREEN_WIDTH && spawnDist(gen) < spawnThreshold) {
         int spawnX1 = lastGeneratedX + segmentLength / 3;
         int spawnX2 = lastGeneratedX + segmentLength * 2 / 3;
         if (std::abs(spawnX1 - playerRect.x) > MIN_ENEMY_SPAWN_DISTANCE) {
             spawnEnemy(spawnX1, groundHeight - 40);
         }
-        if (spawnDist(gen) < 0.6f && std::abs(spawnX2 - playerRect.x) > MIN_ENEMY_SPAWN_DISTANCE) {
+        if (spawnDist(gen) < spawnThreshold * 0.6f && std::abs(spawnX2 - playerRect.x) > MIN_ENEMY_SPAWN_DISTANCE) {
             spawnEnemy(spawnX2, groundHeight - 40);
         }
     }
@@ -453,7 +467,7 @@ void Game::generateWorld() {
                     tiles.push_back({{platformX + j * TILE_SIZE, platformY, TILE_SIZE, TILE_SIZE}, false});
                 }
 
-                if (lastGeneratedX > SCREEN_WIDTH && spawnDist(gen) < 0.8f && numPlatforms > 1 &&
+                if (lastGeneratedX > SCREEN_WIDTH && spawnDist(gen) < spawnThreshold * 0.8f && numPlatforms > 1 &&
                     std::abs(platformX + platformWidth / 2 - playerRect.x) > MIN_ENEMY_SPAWN_DISTANCE) {
                     spawnEnemy(platformX + platformWidth / 2, platformY - 40);
                 }
@@ -469,7 +483,7 @@ void Game::generateWorld() {
                 tiles.push_back({{lastGeneratedX + x * TILE_SIZE, groundHeight - pipeHeight + y * TILE_SIZE, TILE_SIZE, TILE_SIZE}, true});
             }
         }
-        if (lastGeneratedX > SCREEN_WIDTH && spawnDist(gen) < 0.8f &&
+        if (lastGeneratedX > SCREEN_WIDTH && spawnDist(gen) < spawnThreshold * 0.8f &&
             std::abs(lastGeneratedX + pipeWidth / 2 - playerRect.x) > MIN_ENEMY_SPAWN_DISTANCE) {
             spawnEnemy(lastGeneratedX + pipeWidth / 2, groundHeight - pipeHeight - 40);
         }
@@ -490,10 +504,10 @@ void Game::generateWorld() {
             for (int j = 0; j < platformWidth / TILE_SIZE; j++) {
                 tiles.push_back({{platformX + j * TILE_SIZE, platformY, TILE_SIZE, TILE_SIZE}, false});
             }
-            if (lastGeneratedX > SCREEN_WIDTH && spawnDist(gen) < 0.8f && numPlatforms > 1 &&
+            if (lastGeneratedX > SCREEN_WIDTH && spawnDist(gen) < spawnThreshold * 0.8f && numPlatforms > 1 &&
                 std::abs(platformX + platformWidth / 2 - playerRect.x) > MIN_ENEMY_SPAWN_DISTANCE) {
                 spawnEnemy(platformX + platformWidth / 2, platformY - 40);
-                if (platformWidth > TILE_SIZE && spawnDist(gen) < 0.4f) {
+                if (platformWidth > TILE_SIZE && spawnDist(gen) < spawnThreshold * 0.4f) {
                     spawnEnemy(platformX, platformY - 40);
                 }
             }
@@ -502,12 +516,12 @@ void Game::generateWorld() {
         }
         lastGeneratedX += totalWidth + TILE_SIZE * 2;
     } else {
-        if (lastGeneratedX > SCREEN_WIDTH && spawnDist(gen) < 0.9f) {
+        if (lastGeneratedX > SCREEN_WIDTH && spawnDist(gen) < spawnThreshold) {
             int spawnX = lastGeneratedX + TILE_SIZE;
             if (std::abs(spawnX - playerRect.x) > MIN_ENEMY_SPAWN_DISTANCE) {
                 spawnEnemy(spawnX, groundHeight - 40);
             }
-            if (spawnDist(gen) < 0.5f) {
+            if (spawnDist(gen) < spawnThreshold * 0.5f) {
                 int spawnX2 = lastGeneratedX + TILE_SIZE * 2;
                 if (std::abs(spawnX2 - playerRect.x) > MIN_ENEMY_SPAWN_DISTANCE) {
                     spawnEnemy(spawnX2, groundHeight - 40);
@@ -516,12 +530,12 @@ void Game::generateWorld() {
         }
         lastGeneratedX += TILE_SIZE * 3;
     }
-    if (lastGeneratedX > SCREEN_WIDTH && spawnDist(gen) < 0.7f) {
+    if (lastGeneratedX > SCREEN_WIDTH && spawnDist(gen) < spawnThreshold * 0.7f) {
         int soloBlockX = lastGeneratedX - segmentLength / 2;
         int soloBlockY = groundHeight - TILE_SIZE * (rand() % 4 + 1);
         if (soloBlockY < groundHeight - 4 * TILE_SIZE) {
             tiles.push_back({{soloBlockX, soloBlockY, TILE_SIZE, TILE_SIZE}, false});
-            if (spawnDist(gen) < 0.6f && std::abs(soloBlockX - playerRect.x) > MIN_ENEMY_SPAWN_DISTANCE) {
+            if (spawnDist(gen) < spawnThreshold * 0.6f && std::abs(soloBlockX - playerRect.x) > MIN_ENEMY_SPAWN_DISTANCE) {
                 spawnEnemy(soloBlockX, soloBlockY - 40);
             }
         }
@@ -574,6 +588,9 @@ void Game::fireBullet() {
 }
 
 void Game::spawnEnemy(int x, int y) {
+    static float spawnThreshold = 0.9f; // Ngưỡng spawn ban đầu
+    if (spawnDist(gen) >= spawnThreshold) return;
+
     Enemy enemy;
     enemy.type = rand() % 5;
     int baseHeight = (enemy.type == 3) ? 40 : 30;
@@ -633,6 +650,8 @@ bool Game::canSpawnEnemy(int x, int y, int width, int height) {
 }
 
 void Game::updateEnemies() {
+    static float enemyBulletSpeed = 3.0f; // Tốc độ đạn enemy ban đầu
+
     for (auto& enemy : enemies) {
         if (!enemy.active) continue;
 
@@ -685,7 +704,8 @@ void Game::updateEnemies() {
             float distanceToPlayer = std::abs(playerRect.x + playerRect.w / 2 - (enemy.rect.x + enemy.rect.w / 2));
             if (distanceToPlayer < enemy.detectionRange && enemy.shootCooldown <= 0) {
                 enemyBullets.push_back({{enemy.rect.x + (enemy.facingLeft ? 0 : enemy.rect.w), enemy.rect.y + enemy.rect.h / 2 - 2, 10, 5},
-                                        (enemy.type <= 1) ? 3.0f : 4.0f, true, enemy.facingLeft, 0, enemy.rect.x + (enemy.facingLeft ? 0 : enemy.rect.w)});
+                                        enemyBulletSpeed + (enemy.type <= 1 ? 0 : 1.0f), true, enemy.facingLeft, 0,
+                                        enemy.rect.x + (enemy.facingLeft ? 0 : enemy.rect.w)});
                 enemy.shootCooldown = (enemy.type <= 1) ? 60 : 45;
             } else if (enemy.shootCooldown > 0) {
                 enemy.shootCooldown--;
@@ -810,4 +830,22 @@ void Game::close() {
     IMG_Quit();
     TTF_Quit();
     SDL_Quit();
+}
+
+int Game::getNextDifficultyThreshold(int currentScore) {
+    if (currentScore < 100) return 100;
+
+    int temp = currentScore;
+    int digits = 0;
+    while (temp > 0) {
+        temp /= 10;
+        digits++;
+    }
+
+    int base = 1;
+    for (int i = 1; i < digits; i++) {
+        base *= 10;
+    }
+    int firstDigit = (currentScore / base) + 1;
+    return firstDigit * base;
 }
