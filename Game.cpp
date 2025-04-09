@@ -423,7 +423,11 @@ void Game::renderText(const char* text, int x, int y, SDL_Color color, TTF_Font*
 }
 
 void Game::generateWorld() {
+<<<<<<< HEAD
     static float spawnThreshold = 0.9f;
+=======
+    static float spawnThreshold = 0.9f; // Ngưỡng spawn ban đầu
+>>>>>>> 1aaf4da6794a26c504f0406884b8b85a90d74dff
 
     for (int y = 0; y < 3; y++) {
         for (int x = lastGeneratedX; x < lastGeneratedX + SCREEN_WIDTH + TILE_SIZE * 10; x += TILE_SIZE) {
@@ -592,7 +596,11 @@ void Game::fireBullet() {
 }
 
 void Game::spawnEnemy(int x, int y) {
+<<<<<<< HEAD
     static float spawnThreshold = 0.9f;
+=======
+    static float spawnThreshold = 0.9f; // Ngưỡng spawn ban đầu
+>>>>>>> 1aaf4da6794a26c504f0406884b8b85a90d74dff
     if (spawnDist(gen) >= spawnThreshold) return;
 
     Enemy enemy;
@@ -654,7 +662,11 @@ bool Game::canSpawnEnemy(int x, int y, int width, int height) {
 }
 
 void Game::updateEnemies() {
+<<<<<<< HEAD
     static float enemyBulletSpeed = 3.0f;
+=======
+    static float enemyBulletSpeed = 3.0f; // Tốc độ đạn enemy ban đầu
+>>>>>>> 1aaf4da6794a26c504f0406884b8b85a90d74dff
 
     for (auto& enemy : enemies) {
         if (!enemy.active) continue;

@@ -34,6 +34,7 @@ private:
     void updateMusic();
     void playSFX(Mix_Chunk* sound);
     bool isSpacePressed;
+<<<<<<< HEAD
     float baseSpawnThreshold = 0.9f;
     float spawnThresholdDecrease = 0.03f;
     float currentSpawnThreshold;
@@ -41,6 +42,17 @@ private:
     float baseEnemyBulletSpeed = 3.0f;
     float bulletSpeedIncrease = 0.5f;
     int lastDifficultyThreshold = 0;
+=======
+    float baseSpawnThreshold = 0.9f;  // Ngưỡng spawn ban đầu (càng nhỏ càng dễ spawn)
+    float spawnThresholdDecrease = 0.03f; // Giảm ngưỡng 3% mỗi mốc
+    float currentSpawnThreshold;  // Ngưỡng spawn hiện tại
+    float baseBulletSpeed = 10.0f;  // Tốc độ đạn người chơi ban đầu
+    float baseEnemyBulletSpeed = 3.0f;  // Tốc độ đạn enemy ban đầu
+    float bulletSpeedIncrease = 0.5f;  // Tăng tốc độ đạn mỗi mốc
+    int lastDifficultyThreshold = 0;  // Mốc độ khó cuối cùng đã đạt
+
+    // Hàm tính mốc độ khó tiếp theo
+>>>>>>> 1aaf4da6794a26c504f0406884b8b85a90d74dff
     int getNextDifficultyThreshold(int currentScore);
     SDL_Window* window;
     SDL_Renderer* renderer;

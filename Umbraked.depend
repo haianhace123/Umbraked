@@ -59,7 +59,11 @@
 	"defs.h"
 	"BaseObject.h"
 
+<<<<<<< HEAD
 1744208277 c:\hai anh\umbraked\game.h
+=======
+1744202932 c:\hai anh\umbraked\game.h
+>>>>>>> 1aaf4da6794a26c504f0406884b8b85a90d74dff
 	<SDL.h>
 	<SDL_ttf.h>
 	<SDL_mixer.h>

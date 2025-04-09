@@ -17,10 +17,14 @@ Bạn sẽ điều khiển nhân vật chính vượt qua các thử thách hấ
 - Phím W: Nhảy
 - Phím SPACE: Bắn 
 <<<<<<< HEAD
+<<<<<<< HEAD
 - Tránh chướng ngại vật và đạt điểm số cao nhất.
 =======
 - Tránh chướng ngại vật và đat điểm số cao nhất.
 >>>>>>> 1aaf4da (update lan 2)
+=======
+- Tránh chướng ngại vật và đat điểm số cao nhất.
+>>>>>>> 1aaf4da6794a26c504f0406884b8b85a90d74dff
 
 ---------------------------------------------
 ⚙️ Cài đặt:
