@@ -16,7 +16,11 @@ Bạn sẽ điều khiển nhân vật chính vượt qua các thử thách hấ
 - Phím A/D: Di chuyển nhân vật
 - Phím W: Nhảy
 - Phím SPACE: Bắn 
+<<<<<<< HEAD
 - Tránh chướng ngại vật và đạt điểm số cao nhất.
+=======
+- Tránh chướng ngại vật và đat điểm số cao nhất.
+>>>>>>> 1aaf4da (update lan 2)
 
 ---------------------------------------------
 ⚙️ Cài đặt:

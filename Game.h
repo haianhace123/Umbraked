@@ -15,6 +15,7 @@ public:
     bool init();
     void run();
     void close();
+    TTF_Font* scoreFont;
 
 private:
     void handleEvents();
@@ -33,6 +34,14 @@ private:
     void updateMusic();
     void playSFX(Mix_Chunk* sound);
     bool isSpacePressed;
+    float baseSpawnThreshold = 0.9f;
+    float spawnThresholdDecrease = 0.03f;
+    float currentSpawnThreshold;
+    float baseBulletSpeed = 10.0f;
+    float baseEnemyBulletSpeed = 3.0f;
+    float bulletSpeedIncrease = 0.5f;
+    int lastDifficultyThreshold = 0;
+    int getNextDifficultyThreshold(int currentScore);
     SDL_Window* window;
     SDL_Renderer* renderer;
     TTF_Font* font;
