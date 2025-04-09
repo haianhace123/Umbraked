@@ -51,7 +51,7 @@ bool Game::init() {
 
     font = TTF_OpenFont(FONT_PATH, FONT_SIZE);
     titleFont = TTF_OpenFont(TITLE_FONT_PATH, 72);
-    scoreFont = TTF_OpenFont("txt/BungeeTint-Regular.ttf", 28); // Font mới cho Score
+    scoreFont = TTF_OpenFont("txt/BungeeTint-Regular.ttf", 28);
     if (!font || !titleFont || !scoreFont) {
         printf("Failed to load fonts! SDL_ttf Error: %s\n", TTF_GetError());
         return false;
@@ -201,15 +201,14 @@ void Game::update() {
 
     cameraX += CAMERA_SPEED;
 
-    // Tăng độ khó dựa trên điểm số
-    static float spawnThreshold = 0.9f; // Ngưỡng spawn ban đầu
-    static float enemyBulletSpeed = 3.0f; // Tốc độ đạn enemy ban đầu
+    static float spawnThreshold = 0.9f;
+    static float enemyBulletSpeed = 3.0f;
     static int lastThreshold = 0;
     int nextThreshold = getNextDifficultyThreshold(lastThreshold);
     if (score >= nextThreshold && score >= 100) {
-        spawnThreshold = 0.9f - 0.03f * (score / 100); // Giảm ngưỡng spawn 3% mỗi mốc
-        spawnThreshold = std::max(0.3f, spawnThreshold); // Giới hạn tối thiểu
-        enemyBulletSpeed += 0.1f; // Tăng tốc độ đạn enemy 0.1 mỗi mốc
+        spawnThreshold = 0.9f - 0.03f * (score / 100);
+        spawnThreshold = std::max(0.3f, spawnThreshold);
+        enemyBulletSpeed += 0.1f;
         lastThreshold = nextThreshold;
     }
 
@@ -395,11 +394,11 @@ void Game::render() {
             SDL_RenderCopy(renderer, heartTextures[i], NULL, &heartRect);
         }
         std::string scoreText = "Score: " + std::to_string(score);
-        renderText(scoreText.c_str(), SCREEN_WIDTH - 400, 10, black, scoreFont); // Dùng scoreFont thay vì font
+        renderText(scoreText.c_str(), SCREEN_WIDTH - 400, 10, black, scoreFont);
     } else if (gameState == GAME_OVER) {
         renderText("GAME OVER", SCREEN_WIDTH / 2, 100, white, font, true);
         std::string scoreText = "Score: " + std::to_string(score);
-        renderText(scoreText.c_str(), SCREEN_WIDTH / 2, 150, white, font, true); // Dùng scoreFont cho Score
+        renderText(scoreText.c_str(), SCREEN_WIDTH / 2, 150, white, font, true);
         menuButtons = {{{SCREEN_WIDTH / 2 - 25, 270, 100, 50}, "Play Again"},
                        {{SCREEN_WIDTH / 2 - 25, 340, 100, 50}, "Main Menu"},
                        {{SCREEN_WIDTH / 2 - 25, 410, 100, 50}, "Exit"}};
@@ -424,7 +423,7 @@ void Game::renderText(const char* text, int x, int y, SDL_Color color, TTF_Font*
 }
 
 void Game::generateWorld() {
-    static float spawnThreshold = 0.9f; // Ngưỡng spawn ban đầu
+    static float spawnThreshold = 0.9f;
 
     for (int y = 0; y < 3; y++) {
         for (int x = lastGeneratedX; x < lastGeneratedX + SCREEN_WIDTH + TILE_SIZE * 10; x += TILE_SIZE) {
@@ -593,7 +592,7 @@ void Game::fireBullet() {
 }
 
 void Game::spawnEnemy(int x, int y) {
-    static float spawnThreshold = 0.9f; // Ngưỡng spawn ban đầu
+    static float spawnThreshold = 0.9f;
     if (spawnDist(gen) >= spawnThreshold) return;
 
     Enemy enemy;
@@ -655,7 +654,7 @@ bool Game::canSpawnEnemy(int x, int y, int width, int height) {
 }
 
 void Game::updateEnemies() {
-    static float enemyBulletSpeed = 3.0f; // Tốc độ đạn enemy ban đầu
+    static float enemyBulletSpeed = 3.0f;
 
     for (auto& enemy : enemies) {
         if (!enemy.active) continue;
@@ -823,7 +822,7 @@ void Game::close() {
     for (auto texture : heartTextures) SDL_DestroyTexture(texture);
     TTF_CloseFont(font);
     TTF_CloseFont(titleFont);
-    TTF_CloseFont(scoreFont); // Giải phóng font mới
+    TTF_CloseFont(scoreFont);
     SDL_DestroyRenderer(renderer);
     SDL_DestroyWindow(window);
     Mix_FreeChunk(hitSound);
