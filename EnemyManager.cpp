@@ -61,7 +61,7 @@ void EnemyManager::updateEnemies(const SDL_Rect& playerRect, std::vector<Bullet>
             if (distanceToPlayer < enemy.detectionRange && enemy.shootCooldown <= 0) {
                 enemyBullets.push_back({{enemy.rect.x + (enemy.facingLeft ? 0 : enemy.rect.w), enemy.rect.y + enemy.rect.h / 2 - 2, 10, 5},
                                         (enemy.type <= 1) ? 3.0f : 4.0f, true, enemy.facingLeft, 0, enemy.rect.x + (enemy.facingLeft ? 0 : enemy.rect.w)});
-                enemy.shootCooldown = (enemy.type <= 1) ? 60 : 45;
+                enemy.shootCooldown = (enemy.type <= 1) ? 40 : 30;
             } else if (enemy.shootCooldown > 0) {
                 enemy.shootCooldown--;
             }

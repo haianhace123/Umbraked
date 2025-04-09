@@ -59,7 +59,7 @@
 	"defs.h"
 	"BaseObject.h"
 
-1744108780 c:\hai anh\umbraked\game.h
+1744168145 c:\hai anh\umbraked\game.h
 	<SDL.h>
 	<SDL_ttf.h>
 	<SDL_mixer.h>
@@ -68,7 +68,7 @@
 	"Config.h"
 	"Structs.h"
 
-1744108780 c:\hai anh\umbraked\config.h
+1744168554 c:\hai anh\umbraked\config.h
 
 1744108886 c:\hai anh\umbraked\structs.h
 	<SDL.h>
@@ -109,12 +109,12 @@
 1744108780 source:c:\hai anh\umbraked\utils.cpp
 	"Utils.h"
 
-1744103786 source:c:\hai anh\umbraked\enemymanager.cpp
+1744168728 source:c:\hai anh\umbraked\enemymanager.cpp
 	"EnemyManager.h"
 	"Utils.h"
 	<algorithm>
 
-1744108886 source:c:\hai anh\umbraked\game.cpp
+1744192196 source:c:\hai anh\umbraked\game.cpp
 	"Game.h"
 	"Utils.h"
 	<SDL_image.h>
@@ -129,4 +129,6 @@
 
 1744108325 source:c:\hai anh\umbraked\config.cpp
 	"Config.h"
+
+1744114520 source:c:\hai anh\umbraked\resource.rc
 

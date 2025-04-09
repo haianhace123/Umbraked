@@ -23,7 +23,7 @@ Game::Game() :
     playerFlipped(false), playerVelX(0), playerVelY(0), score(0), bestScore(0),
     cameraX(0), maxPlayerX(0), shootCooldown(0), groundHeight(GROUND_HEIGHT),
     lastGeneratedX(0), lives(3), invincibilityTimer(0), isInvincible(false),
-    musicOn(true), sfxOn(true),
+    musicOn(true), sfxOn(true), isSpacePressed(false),
     playerRect{SCREEN_WIDTH / 4, GROUND_HEIGHT - PLAYER_HEIGHT, PLAYER_WIDTH, PLAYER_HEIGHT},
     gen(std::random_device()()),
     yDist(200, 400), gapDist(TILE_SIZE * 4, TILE_SIZE * 6), spawnDist(0.0f, 1.0f) {
@@ -165,6 +165,15 @@ void Game::handleEvents() {
                 else if (checkCollision({x, y, 1, 1}, menuButtons[2].rect)) { close(); exit(0); }
             }
         }
+        if (gameState == PLAYING && e.type == SDL_KEYDOWN && e.key.keysym.sym == SDLK_SPACE && shootCooldown <= 0 && !isSpacePressed) {
+            fireBullet();
+            shootCooldown = 13;
+            isSpacePressed = true;
+        }
+
+        if (gameState == PLAYING && e.type == SDL_KEYUP && e.key.keysym.sym == SDLK_SPACE) {
+            isSpacePressed = false;
+        }
     }
 
     if (gameState == PLAYING) {
@@ -174,9 +183,6 @@ void Game::handleEvents() {
         if (keystate[SDL_SCANCODE_D]) { playerVelX += PLAYER_SPEED; playerFlipped = false; }
         if (keystate[SDL_SCANCODE_W] && isOnGround && !isJumping) {
             isJumping = true; isOnGround = false; playerVelY = JUMP_FORCE; playSFX(jumpSound);
-        }
-        if (keystate[SDL_SCANCODE_SPACE] && shootCooldown <= 0) {
-            fireBullet(); shootCooldown = 15;
         }
     }
 }
@@ -400,7 +406,6 @@ void Game::renderText(const char* text, int x, int y, SDL_Color color, TTF_Font*
     SDL_DestroyTexture(texture);
     SDL_FreeSurface(surface);
 }
-
 void Game::generateWorld() {
     for (int y = 0; y < 3; y++) {
         for (int x = lastGeneratedX; x < lastGeneratedX + SCREEN_WIDTH + TILE_SIZE * 10; x += TILE_SIZE) {
@@ -419,10 +424,15 @@ void Game::generateWorld() {
             tiles.push_back({{lastGeneratedX + x * TILE_SIZE, groundHeight + y * TILE_SIZE, TILE_SIZE, TILE_SIZE}, true});
         }
     }
-    if (lastGeneratedX > SCREEN_WIDTH && spawnDist(gen) < 0.7f) {
-        int spawnX = lastGeneratedX + segmentLength / 2;
-        if (std::abs(spawnX - playerRect.x) > MIN_ENEMY_SPAWN_DISTANCE) {
-            spawnEnemy(spawnX, groundHeight - 40);
+
+    if (lastGeneratedX > SCREEN_WIDTH && spawnDist(gen) < 0.9f) {
+        int spawnX1 = lastGeneratedX + segmentLength / 3;
+        int spawnX2 = lastGeneratedX + segmentLength * 2 / 3;
+        if (std::abs(spawnX1 - playerRect.x) > MIN_ENEMY_SPAWN_DISTANCE) {
+            spawnEnemy(spawnX1, groundHeight - 40);
+        }
+        if (spawnDist(gen) < 0.6f && std::abs(spawnX2 - playerRect.x) > MIN_ENEMY_SPAWN_DISTANCE) {
+            spawnEnemy(spawnX2, groundHeight - 40);
         }
     }
     lastGeneratedX += segmentLength;
@@ -442,7 +452,8 @@ void Game::generateWorld() {
                 for (int j = 0; j < platformWidth / TILE_SIZE; j++) {
                     tiles.push_back({{platformX + j * TILE_SIZE, platformY, TILE_SIZE, TILE_SIZE}, false});
                 }
-                if (lastGeneratedX > SCREEN_WIDTH && spawnDist(gen) < 0.5f && numPlatforms > 1 &&
+
+                if (lastGeneratedX > SCREEN_WIDTH && spawnDist(gen) < 0.8f && numPlatforms > 1 &&
                     std::abs(platformX + platformWidth / 2 - playerRect.x) > MIN_ENEMY_SPAWN_DISTANCE) {
                     spawnEnemy(platformX + platformWidth / 2, platformY - 40);
                 }
@@ -458,7 +469,7 @@ void Game::generateWorld() {
                 tiles.push_back({{lastGeneratedX + x * TILE_SIZE, groundHeight - pipeHeight + y * TILE_SIZE, TILE_SIZE, TILE_SIZE}, true});
             }
         }
-        if (lastGeneratedX > SCREEN_WIDTH && spawnDist(gen) < 0.5f &&
+        if (lastGeneratedX > SCREEN_WIDTH && spawnDist(gen) < 0.8f &&
             std::abs(lastGeneratedX + pipeWidth / 2 - playerRect.x) > MIN_ENEMY_SPAWN_DISTANCE) {
             spawnEnemy(lastGeneratedX + pipeWidth / 2, groundHeight - pipeHeight - 40);
         }
@@ -479,29 +490,40 @@ void Game::generateWorld() {
             for (int j = 0; j < platformWidth / TILE_SIZE; j++) {
                 tiles.push_back({{platformX + j * TILE_SIZE, platformY, TILE_SIZE, TILE_SIZE}, false});
             }
-            if (lastGeneratedX > SCREEN_WIDTH && spawnDist(gen) < 0.5f && numPlatforms > 1 &&
+            if (lastGeneratedX > SCREEN_WIDTH && spawnDist(gen) < 0.8f && numPlatforms > 1 &&
                 std::abs(platformX + platformWidth / 2 - playerRect.x) > MIN_ENEMY_SPAWN_DISTANCE) {
                 spawnEnemy(platformX + platformWidth / 2, platformY - 40);
+                if (platformWidth > TILE_SIZE && spawnDist(gen) < 0.4f) {
+                    spawnEnemy(platformX, platformY - 40);
+                }
             }
             prevX = platformX + platformWidth;
             prevY = platformY;
         }
         lastGeneratedX += totalWidth + TILE_SIZE * 2;
     } else {
-        if (lastGeneratedX > SCREEN_WIDTH && spawnDist(gen) < 0.7f) {
-            int spawnX = lastGeneratedX + TILE_SIZE * 2;
+        if (lastGeneratedX > SCREEN_WIDTH && spawnDist(gen) < 0.9f) {
+            int spawnX = lastGeneratedX + TILE_SIZE;
             if (std::abs(spawnX - playerRect.x) > MIN_ENEMY_SPAWN_DISTANCE) {
                 spawnEnemy(spawnX, groundHeight - 40);
+            }
+            if (spawnDist(gen) < 0.5f) {
+                int spawnX2 = lastGeneratedX + TILE_SIZE * 2;
+                if (std::abs(spawnX2 - playerRect.x) > MIN_ENEMY_SPAWN_DISTANCE) {
+                    spawnEnemy(spawnX2, groundHeight - 40);
+                }
             }
         }
         lastGeneratedX += TILE_SIZE * 3;
     }
-
-    if (lastGeneratedX > SCREEN_WIDTH && spawnDist(gen) < 0.5f) {
+    if (lastGeneratedX > SCREEN_WIDTH && spawnDist(gen) < 0.7f) {
         int soloBlockX = lastGeneratedX - segmentLength / 2;
         int soloBlockY = groundHeight - TILE_SIZE * (rand() % 4 + 1);
         if (soloBlockY < groundHeight - 4 * TILE_SIZE) {
             tiles.push_back({{soloBlockX, soloBlockY, TILE_SIZE, TILE_SIZE}, false});
+            if (spawnDist(gen) < 0.6f && std::abs(soloBlockX - playerRect.x) > MIN_ENEMY_SPAWN_DISTANCE) {
+                spawnEnemy(soloBlockX, soloBlockY - 40);
+            }
         }
     }
 }

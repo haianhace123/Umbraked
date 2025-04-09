@@ -32,15 +32,22 @@
 			<Add option="-Wall" />
 			<Add option="-fexceptions" />
 		</Compiler>
-		<Unit filename="BaseObject.cpp" />
-		<Unit filename="BaseObject.h" />
-		<Unit filename="Bullet.h" />
-		<Unit filename="Enemy.h" />
-		<Unit filename="Player.h" />
-		<Unit filename="TextButton.h" />
-		<Unit filename="defs.h" />
-		<Unit filename="graphics.h" />
+		<Unit filename="Config.h" />
+		<Unit filename="EnemyManager.cpp" />
+		<Unit filename="EnemyManager.h" />
+		<Unit filename="Game.cpp" />
+		<Unit filename="Game.h" />
+		<Unit filename="ResourceManager.cpp" />
+		<Unit filename="ResourceManager.h" />
+		<Unit filename="Structs.h" />
+		<Unit filename="Utils.cpp" />
+		<Unit filename="Utils.h" />
+		<Unit filename="WorldGenerator.cpp" />
+		<Unit filename="WorldGenerator.h" />
 		<Unit filename="main.cpp" />
+		<Unit filename="resource.rc">
+			<Option compilerVar="WINDRES" />
+		</Unit>
 		<Extensions />
 	</Project>
 </CodeBlocks_project_file>

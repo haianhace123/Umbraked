@@ -32,7 +32,7 @@ private:
     void saveBestScore();
     void updateMusic();
     void playSFX(Mix_Chunk* sound);
-
+    bool isSpacePressed;
     SDL_Window* window;
     SDL_Renderer* renderer;
     TTF_Font* font;

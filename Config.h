@@ -36,7 +36,7 @@ constexpr const char* MENU_SOUND_PATH = "sound/soundmenu.wav";
 constexpr int MAX_JUMP_DISTANCE = TILE_SIZE * 4;
 constexpr int GROUND_HEIGHT = SCREEN_HEIGHT - TILE_SIZE * 3;
 constexpr int MIN_ENEMY_SPAWN_DISTANCE = 300;
-constexpr int BULLET_MAX_DISTANCE = 500;
+constexpr int BULLET_MAX_DISTANCE = 300;
 
 enum GameState { MAIN_MENU, INSTRUCTIONS, RECORDS, OPTIONS, PLAYING, GAME_OVER };
 
