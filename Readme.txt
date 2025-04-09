@@ -16,7 +16,7 @@ Bạn sẽ điều khiển nhân vật chính vượt qua các thử thách hấ
 - Phím A/D: Di chuyển nhân vật
 - Phím W: Nhảy
 - Phím SPACE: Bắn 
-- Tránh chướng ngại vật và hoàn thành các màn chơi.
+- Tránh chướng ngại vật và đạt điểm số cao nhất.
 
 ---------------------------------------------
 ⚙️ Cài đặt:
