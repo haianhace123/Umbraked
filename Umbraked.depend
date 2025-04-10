@@ -59,11 +59,18 @@
 	"defs.h"
 	"BaseObject.h"
 
-<<<<<<< HEAD
-1744208277 c:\hai anh\umbraked\game.h
-=======
-1744202932 c:\hai anh\umbraked\game.h
->>>>>>> 1aaf4da6794a26c504f0406884b8b85a90d74dff
+1741681464 D
+
+1744212780 c:\hai anh\umbraked\game.h
+	<SDL.h>
+	<SDL_ttf.h>
+	<SDL_mixer.h>
+	<vector>
+	<random>
+	"Config.h"
+	"Structs.h"
+
+1744202932 f4da6794a26c504f0406884b8b85a90d74dff
 	<SDL.h>
 	<SDL_ttf.h>
 	<SDL_mixer.h>
@@ -118,7 +125,7 @@
 	"Utils.h"
 	<algorithm>
 
-1744208523 source:c:\hai anh\umbraked\game.cpp
+1744212780 source:c:\hai anh\umbraked\game.cpp
 	"Game.h"
 	"Utils.h"
 	<SDL_image.h>
