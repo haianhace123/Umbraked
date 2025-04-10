@@ -653,21 +653,15 @@ void Game::resetGame() {
     if (spawnY < TILE_SIZE) {
         spawnY = GROUND_HEIGHT - PLAYER_HEIGHT;
     }
-    SDL_Log("Initial Spawn - X: %d, Y: %d", spawnX, spawnY);
     SDL_Rect playerSpawnRect = {spawnX, spawnY, PLAYER_WIDTH, PLAYER_HEIGHT};
-    bool hasCollision = false;
     for (const auto& tile : groundTiles) {
         if (SDL_HasIntersection(&playerSpawnRect, &tile.rect)) {
             spawnY = tile.rect.y - PLAYER_HEIGHT;
-            hasCollision = true;
-            SDL_Log("Collision detected with tile at X: %d, Y: %d", tile.rect.x, tile.rect.y);
-            SDL_Log("Adjusted SpawnY to: %d", spawnY);
             break;
         }
     }
-    if (!hasCollision) {
-        SDL_Log("No collision detected with any tile");
-    }
+
+    playerRect = {spawnX, spawnY, PLAYER_WIDTH, PLAYER_HEIGHT};
 }
 void Game::fireBullet() {
     bullets.push_back({{playerRect.x + (playerFlipped ? 0 : playerRect.w), playerRect.y + playerRect.h / 2 - 2, 10, 5},
