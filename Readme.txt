@@ -14,9 +14,9 @@ Bạn sẽ điều khiển nhân vật chính vượt qua các thử thách hấ
 ---------------------------------------------
 🕹️ Hướng dẫn chơi:
 - Phím A/D: Di chuyển nhân vật
-- Phím W: Nhảy
+- Phím W: Nhảy (chuyển Unikey sang English mode)
 - Phím SPACE: Bắn 
-- Tránh chướng ngại vật và đạt điểm số cao nhất.
+- Tránh chướng ngại vật và đat điểm số cao nhất.
 
 ---------------------------------------------
 ⚙️ Cài đặt:

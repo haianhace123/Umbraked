@@ -580,9 +580,86 @@ void Game::resetGame() {
     heartTextures[1] = liveTexture;
     heartTextures[2] = liveTexture;
 
-    for (int i = 0; i < 30; i++) generateWorld();
 
-    playerRect = {cameraX + TILE_SIZE + 50, GROUND_HEIGHT - PLAYER_HEIGHT, PLAYER_WIDTH, PLAYER_HEIGHT};
+    for (int i = 0; i < 30; i++) generateWorld();
+    std::vector<Tile> groundTiles;
+    for (const auto& tile : tiles) {
+        if (tile.isGround) {
+            groundTiles.push_back(tile);
+        }
+    }
+    std::sort(groundTiles.begin(), groundTiles.end(),
+              [](const Tile& a, const Tile& b) { return a.rect.x < b.rect.x; });
+
+    int spawnX = 0;
+    int spawnY = GROUND_HEIGHT - PLAYER_HEIGHT;
+
+    if (groundTiles.size() >= 5) {
+        Tile& targetTile = groundTiles[4];
+        spawnX = targetTile.rect.x + targetTile.rect.w / 2 - PLAYER_WIDTH / 2;
+        int minY = targetTile.rect.y;
+        for (const auto& tile : groundTiles) {
+            if (tile.rect.x <= spawnX && tile.rect.x + tile.rect.w >= spawnX) {
+                if (tile.rect.y < minY) {
+                    minY = tile.rect.y;
+                }
+            }
+        }
+        spawnY = minY - PLAYER_HEIGHT;
+    } else if (!groundTiles.empty()) {
+        int idealX = (5 - 1) * TILE_SIZE;
+        Tile* closestTile = nullptr;
+        int minDistance = INT_MAX;
+
+        for (auto& tile : groundTiles) {
+            int tileCenterX = tile.rect.x + tile.rect.w / 2;
+            if (tileCenterX >= idealX) {
+                int distance = tileCenterX - idealX;
+                if (distance < minDistance) {
+                    minDistance = distance;
+                    closestTile = &tile;
+                }
+            }
+        }
+
+        if (closestTile) {
+            spawnX = closestTile->rect.x + closestTile->rect.w / 2 - PLAYER_WIDTH / 2;
+
+            int minY = closestTile->rect.y;
+            for (const auto& tile : groundTiles) {
+                if (tile.rect.x <= spawnX && tile.rect.x + tile.rect.w >= spawnX) {
+                    if (tile.rect.y < minY) {
+                        minY = tile.rect.y;
+                    }
+                }
+            }
+            spawnY = minY - PLAYER_HEIGHT;
+        } else {
+
+            Tile& lastTile = groundTiles.back();
+            spawnX = lastTile.rect.x + lastTile.rect.w / 2 - PLAYER_WIDTH / 2;
+
+
+            int minY = lastTile.rect.y;
+            for (const auto& tile : groundTiles) {
+                if (tile.rect.x <= spawnX && tile.rect.x + tile.rect.w >= spawnX) {
+                    if (tile.rect.y < minY) {
+                        minY = tile.rect.y;
+                    }
+                }
+            }
+            spawnY = minY - PLAYER_HEIGHT;
+        }
+    } else {
+        spawnX = cameraX + TILE_SIZE * 4 + TILE_SIZE / 2 - PLAYER_WIDTH / 2;
+        spawnY = GROUND_HEIGHT - PLAYER_HEIGHT;
+    }
+
+    if (spawnY < TILE_SIZE) {
+        spawnY = GROUND_HEIGHT - PLAYER_HEIGHT;
+    }
+
+    playerRect = {spawnX, spawnY, PLAYER_WIDTH, PLAYER_HEIGHT};
 }
 
 void Game::fireBullet() {
