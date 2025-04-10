@@ -580,7 +580,6 @@ void Game::resetGame() {
     heartTextures[1] = liveTexture;
     heartTextures[2] = liveTexture;
 
-
     for (int i = 0; i < 30; i++) generateWorld();
     std::vector<Tile> groundTiles;
     for (const auto& tile : tiles) {
@@ -624,7 +623,6 @@ void Game::resetGame() {
 
         if (closestTile) {
             spawnX = closestTile->rect.x + closestTile->rect.w / 2 - PLAYER_WIDTH / 2;
-
             int minY = closestTile->rect.y;
             for (const auto& tile : groundTiles) {
                 if (tile.rect.x <= spawnX && tile.rect.x + tile.rect.w >= spawnX) {
@@ -635,11 +633,8 @@ void Game::resetGame() {
             }
             spawnY = minY - PLAYER_HEIGHT;
         } else {
-
             Tile& lastTile = groundTiles.back();
             spawnX = lastTile.rect.x + lastTile.rect.w / 2 - PLAYER_WIDTH / 2;
-
-
             int minY = lastTile.rect.y;
             for (const auto& tile : groundTiles) {
                 if (tile.rect.x <= spawnX && tile.rect.x + tile.rect.w >= spawnX) {
@@ -658,10 +653,22 @@ void Game::resetGame() {
     if (spawnY < TILE_SIZE) {
         spawnY = GROUND_HEIGHT - PLAYER_HEIGHT;
     }
-
-    playerRect = {spawnX, spawnY, PLAYER_WIDTH, PLAYER_HEIGHT};
+    SDL_Log("Initial Spawn - X: %d, Y: %d", spawnX, spawnY);
+    SDL_Rect playerSpawnRect = {spawnX, spawnY, PLAYER_WIDTH, PLAYER_HEIGHT};
+    bool hasCollision = false;
+    for (const auto& tile : groundTiles) {
+        if (SDL_HasIntersection(&playerSpawnRect, &tile.rect)) {
+            spawnY = tile.rect.y - PLAYER_HEIGHT;
+            hasCollision = true;
+            SDL_Log("Collision detected with tile at X: %d, Y: %d", tile.rect.x, tile.rect.y);
+            SDL_Log("Adjusted SpawnY to: %d", spawnY);
+            break;
+        }
+    }
+    if (!hasCollision) {
+        SDL_Log("No collision detected with any tile");
+    }
 }
-
 void Game::fireBullet() {
     bullets.push_back({{playerRect.x + (playerFlipped ? 0 : playerRect.w), playerRect.y + playerRect.h / 2 - 2, 10, 5},
                        10.0f, true, playerFlipped, 0, playerRect.x + (playerFlipped ? 0 : playerRect.w)});
