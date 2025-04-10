@@ -109,7 +109,7 @@
 	<SDL_image.h>
 	<cstdio>
 
-1744103499 source:c:\hai anh\umbraked\worldgenerator.cpp
+1744278551 source:c:\hai anh\umbraked\worldgenerator.cpp
 	"WorldGenerator.h"
 	"Utils.h"
 	<cstdlib>
@@ -125,7 +125,7 @@
 	"Utils.h"
 	<algorithm>
 
-1744274930 source:c:\hai anh\umbraked\game.cpp
+1744275369 source:c:\hai anh\umbraked\game.cpp
 	"Game.h"
 	"Utils.h"
 	<SDL_image.h>

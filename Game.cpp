@@ -799,7 +799,6 @@ void Game::updateEnemies() {
                 bullet.active = false;
                 enemy.active = false;
                 playSFX(boomSound);
-                // Xóa: score += (enemy.type <= 1) ? 100 : 150;
                 break;
             }
         }
@@ -809,7 +808,6 @@ void Game::updateEnemies() {
                 enemy.active = false;
                 playerVelY = JUMP_FORCE / 2;
                 playSFX(boomSound);
-                // Xóa: score += 50;
             } else {
                 lives--;
                 playSFX(hitSound);

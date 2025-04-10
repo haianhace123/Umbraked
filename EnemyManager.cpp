@@ -80,7 +80,7 @@ void EnemyManager::updateEnemies(const SDL_Rect& playerRect, std::vector<Bullet>
         if (checkCollision(playerRect, enemy.rect) && !isInvincible) {
             if (playerRect.y + playerRect.h < enemy.rect.y + enemy.rect.h / 2 && playerVelY > 0) {
                 enemy.active = false;
-                playerVelY = JUMP_FORCE / 2; // Now in scope
+                playerVelY = JUMP_FORCE / 2;
                 Mix_PlayChannel(-1, boomSound, 0);
                 score += 50;
             } else {
