@@ -116,7 +116,7 @@ void WorldGenerator::spawnEnemy(int x, int y, std::vector<Enemy>& enemies) {
     Enemy enemy;
     enemy.type = rand() % 5;
     int baseHeight = (enemy.type == 3) ? 40 : 30;
-    int width = (enemy.type == 3) ? static_cast<int>(baseHeight * 1.0f) : // Assuming aspect ratio from ResourceManager
+    int width = (enemy.type == 3) ? static_cast<int>(baseHeight * 1.0f) : 
                 (enemy.type == 4) ? static_cast<int>(baseHeight * 1.0f) : 30;
 
     if (!canSpawnEnemy(x, y, width, baseHeight)) return;
